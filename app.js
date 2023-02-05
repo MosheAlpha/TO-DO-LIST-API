@@ -59,6 +59,7 @@ app.put('/api/courses/:id', (req, res) => {
     }
     course.name = req.body.name;
     res.send(course)
+    console.log()
 });
 
 
