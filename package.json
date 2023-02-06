@@ -18,6 +18,7 @@
   "homepage": "https://github.com/MosheAlpha/TO-DO-LIST-API#readme",
   "dependencies": {
     "express": "^4.18.2",
-    "joi": "^17.7.0"
+    "joi": "^17.7.0",
+    "mongoose": "^6.9.0"
   }
 }
