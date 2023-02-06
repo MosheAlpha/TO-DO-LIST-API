@@ -38,7 +38,7 @@ const tasksArr = [
 ];
 
 //main-page
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     const task = new Task(tasksArr[2]);
     task.save().then((result) => res.send(result))
         .catch((error) => {
@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
 });
 
 //All tasks
-app.get('/tasks', (req, res) => {
+app.get('/api/tasks', (req, res) => {
     Task.find({}, (error, tasks) => {
         if (error) {
             console.error(error);
@@ -61,7 +61,7 @@ app.get('/tasks', (req, res) => {
 });
 
 //specific task
-app.get('/tasks/:id', (req, res) => {
+app.get('/api/tasks/:id', (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -80,7 +80,7 @@ app.get('/tasks/:id', (req, res) => {
 });
 
 //create new task
-app.post('/tasks', (req, res) => {
+app.post('/api/tasks', (req, res) => {
     const newTask = new Task({
         userId: req.body.userId,
         taskName: req.body.taskName,
@@ -115,7 +115,7 @@ app.post('/tasks', (req, res) => {
 });
 
 //update task
-app.put('/tasks/:id', (req, res) => {
+app.put('/api/tasks/:id', (req, res) => {
     const { id } = req.params;
     const updates = req.body;
 
@@ -141,7 +141,7 @@ app.put('/tasks/:id', (req, res) => {
 });
 
 //delete task by id
-// app.delete('/tasks/:id', (req, res) => {
+// app.delete('/api/tasks/:id', (req, res) => {
 //     const { id } = req.params;
 
 //     // Check if the task ID is valid
@@ -161,7 +161,7 @@ app.put('/tasks/:id', (req, res) => {
 // });
 
 //delete all tasks for specific user
-app.delete("/tasks/:userId", (req, res) => {
+app.delete("/api/tasks/:userId", (req, res) => {
     Task.remove({}, (error) => {
         if (error) {
             return res.status(500).json({ message: "Error deleting tasks" });
