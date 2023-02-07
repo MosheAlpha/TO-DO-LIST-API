@@ -40,7 +40,7 @@ exports.main = function (req, res) {
 }
 
 exports.getAllTasks = function (req, res) {
-    Task.find({}, (error, tasks) => {
+    Task.find({userId: req.user._id}, (error, tasks) => {
         if (error) {
             console.error(error);
             return res.status(500).send({ error: 'Failed to retrieve tasks' });
@@ -57,7 +57,7 @@ exports.getTask = function (req, res) {
         return res.status(400).send({ error: 'Invalid task ID' });
     }
 
-    Task.findById(id, (error, task) => {
+    Task.findOne({_id: id, userId: req.user._id}, (error, task) => {
         if (error) {
             console.error(error);
             return res.status(500).send({ error: 'Failed to retrieve task' });

@@ -36,10 +36,10 @@ const authenticateToken = (req, res, next) => {
     }
 }
 
-var userRoutes = require('./routes/userRoutes');
-var apiRoutes = require('./routes/apiRoutes');
+let userRoutes = require('./routes/userRoutes');
+let apiRoutes = require('./routes/apiRoutes');
 app.use("/auth", userRoutes)
-app.use("/api", authenticateToken,apiRoutes)
+app.use("/api", authenticateToken, apiRoutes)
 
 app.use(function (req, res) {
     res.status(404).send({ url: req.originalUrl + ' not found' })
