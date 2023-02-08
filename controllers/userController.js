@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
+const Token = require('../models/tokenModel')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 require('dotenv').config()
-const refreshTokens = []
 
 exports.register = function (req, res) {
     const newUser = new User(req.body);
@@ -31,7 +31,12 @@ exports.signIn = function (req, res) {
         }
         const token = jwt.sign({ email: user.email, firstName: user.firstName, secondName: user.secondName, _id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" })
         const refreshToken = jwt.sign({ email: user.email, firstName: user.firstName, secondName: user.secondName, _id: user._id }, process.env.jWT_REFRESH_TOKEN_SECRET);
-        refreshTokens.push(refreshToken);
+
+        const newToken = new Token({ refreshToken: refreshToken , userId: user._id});
+        newToken.save(function (err, token) {
+            if (err) return res.status(400).send({ message: err });
+        });
+
         return res.status(200).json({
             message: "User Logged in Successfully",
             token,
@@ -45,9 +50,13 @@ exports.token = function (req, res) {
     if (refreshToken == null) {
         return res.status(401).send("No refresh token provided!");
     }
-    if (!refreshTokens.includes(refreshToken)) {
-        return res.status(403).send("Invalid Refresh Token");
-    }
+    // if (!refreshTokens.includes(refreshToken)) {
+    //     return res.status(403).send("Invalid Refresh Token");
+    // }
+
+    Token.findOne({ refreshToken: refreshToken }, (error, token) => {
+        if (error) return res.status(403).send("Invalid Refresh Token");
+    });
 
     jwt.verify(refreshToken, process.env.jWT_REFRESH_TOKEN_SECRET, (err, user) => {
         if (err) return res.status(403).send("Could not Verify Refresh Token");
@@ -84,7 +93,7 @@ exports.profile = function (req, res) {
     if (req.user) {
         return res.status(200).send(req.user);
     }
-    else{
+    else {
         return res.status(401).json({ message: 'Invalid token' });
     }
 };

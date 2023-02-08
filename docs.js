@@ -23,11 +23,23 @@ Error handling: Functions to handle any errors that occur during the above reque
 
 
 // Tasks labels
+[{ "name": "Personal", "color": "Green" }, { "name": "Work", "color": "Blue" }, { "name": "Groceries", "color": "Orange" }, { "name": "Errands", "color": "Pink" }, { "name": "Fitness", "color": "Purple" }, { "name": "Hobbies", "color": "Yellow" }, { "name": "Home", "color": "Teal" }, { "name": "Travel", "color": "Red" }, { "name": "Finance", "color": "Green" }, { "name": "Health", "color": "Blue" }]
+[{ "name": "Personal", "color": "#00FF00" }, { "name": "Work", "color": "#0000FF" }, { "name": "Groceries", "color": "#FFA500" }, { "name": "Errands", "color": "#FF69B4" }, { "name": "Fitness", "color": "#800080" }, { "name": "Hobbies", "color": "#FFFF00" }, { "name": "Home", "color": "#008080" }, { "name": "Travel", "color": "#FF0000" }, { "name": "Finance", "color": "#00FF00" }, { "name": "Health", "color": "#0000FF" }]
+
 ["Personal", "Work", "Shopping", "Home Chores", "Health and Fitness", "Study/Learning", "Travel", "Creative/Hobbies", "Financial", "Miscellaneous/Other", "Event Planning", "Technology", "Communication", "Relationship Management", "Food and Drink", "Automotive", "Home Improvement", "Pet Care", "Personal Growth", "Spirituality/Religion"]
 // and in hebrew
 ["אישי", "עבודה", "קניות", "מטפלים בבית", "בריאות וכושר", "לימוד / למידה", "נסיעות", "יצירה / פעילויות בחופש", "כלכלי", "שונות / אחר", "תכנון אירועים", "טכנולוגיות", "תקשורת", "ניהול יחסים", "אוכל ושתייה", "אוטומוביל", "שיפוץ הבית", "טיפוח חיות מחמד", "צמיחה אישית", "דתיות / רוחניות"]
 
-
+const tasksArr = [
+    {
+        userId: 'user1',
+        taskName: 'Grocery Shopping',
+        description: 'Buy groceries for the week',
+        dueDate: new Date('2023-02-10'),
+        priority: 3,
+        labels: ['Personal', 'Shopping']
+    }
+];
 
 
 
@@ -99,3 +111,370 @@ function validateCourse(course) {
 
     return schema.validate(course)
 }
+
+let data = [
+    {
+        "name": "Personal",
+        "colorName": "Green",
+        "colorHex": "#00FF00",
+        "subLabels": [
+            {
+                "name": "Family",
+                "colorName": "Lime Green",
+                "colorHex": "#32CD32"
+            },
+            {
+                "name": "Friends",
+                "colorName": "Light Green",
+                "colorHex": "#90EE90"
+            },
+            {
+                "name": "Me Time",
+                "colorName": "Forest Green",
+                "colorHex": "#228B22"
+            }
+        ]
+    },
+    {
+        "name": "Work",
+        "colorName": "Blue",
+        "colorHex": "#0000FF",
+        "subLabels": [
+            {
+                "name": "Projects",
+                "colorName": "Light Blue",
+                "colorHex": "#ADD8E6"
+            },
+            {
+                "name": "Meetings",
+                "colorName": "Navy Blue",
+                "colorHex": "#000080"
+            },
+            {
+                "name": "Deadlines",
+                "colorName": "Steel Blue",
+                "colorHex": "#4682B4"
+            }
+        ]
+    },
+    {
+        "name": "Groceries",
+        "colorName": "Orange",
+        "colorHex": "#FFA500",
+        "subLabels": [
+            {
+                "name": "Produce",
+                "colorName": "Peach",
+                "colorHex": "#FFE5B4"
+            },
+            {
+                "name": "Dairy",
+                "colorName": "Coral",
+                "colorHex": "#FF7F50"
+            },
+            {
+                "name": "Bakery",
+                "colorName": "Dark Orange",
+                "colorHex": "#FF8C00"
+            }
+        ]
+    },
+    {
+        "name": "Errands",
+        "colorName": "Pink",
+        "colorHex": "#FF69B4",
+        "subLabels": [
+            {
+                "name": "Banking",
+                "colorName": "Hot Pink",
+                "colorHex": "#FF69B4"
+            },
+            {
+                "name": "Post Office",
+                "colorName": "Deep Pink",
+                "colorHex": "#FF1493"
+            },
+            {
+                "name": "Gas Station",
+                "colorName": "Pale Violet Red",
+                "colorHex": "#DB7093"
+            }
+        ]
+    },
+    {
+        "name": "Fitness",
+        "colorName": "Purple",
+        "colorHex": "#800080",
+        "subLabels": [
+            {
+                "name": "Yoga",
+                "colorName": "Lavender",
+                "colorHex": "#E6E6FA"
+            },
+            {
+                "name": "Gym",
+                "colorName": "Plum",
+                "colorHex": "#DDA0DD"
+            }
+        ]
+    },
+    {
+        "name": "Travel",
+        "colorName": "Red",
+        "colorHex": "#FF0000",
+        "subLabels": [
+            {
+                "name": "Vacation",
+                "colorName": "Tomato",
+                "colorHex": "#FF6347"
+            },
+            {
+                "name": "Business Trip",
+                "colorName": "Crimson",
+                "colorHex": "#DC143C"
+            }
+        ]
+    },
+    {
+        "name": "Home Improvement",
+        "colorName": "Yellow",
+        "colorHex": "#FFFF00",
+        "subLabels": [
+            {
+                "name": "Painting",
+                "colorName": "Lemon Yellow",
+                "colorHex": "#FFFACD"
+            },
+            {
+                "name": "Gardening",
+                "colorName": "Light Yellow",
+                "colorHex": "#FFFFE0"
+            }
+        ]
+    },
+    {
+        "name": "Education",
+        "colorName": "Teal",
+        "colorHex": "#008080",
+        "subLabels": [
+            {
+                "name": "Online Course",
+                "colorName": "Turquoise",
+                "colorHex": "#40E0D0"
+            },
+            {
+                "name": "Book Club",
+                "colorName": "Dark Turquoise",
+                "colorHex": "#00CED1"
+            }
+        ]
+    },
+    {
+        "name": "Hobbies",
+        "colorName": "Brown",
+        "colorHex": "#A52A2A",
+        "subLabels": [
+            {
+                "name": "Photography",
+                "colorName": "Tan",
+                "colorHex": "#D2B48C"
+            },
+            {
+                "name": "Crafts",
+                "colorName": "Sienna",
+                "colorHex": "#A0522D"
+            }
+        ]
+    },
+    {
+        "name": "Health",
+        "colorName": "Maroon",
+        "colorHex": "#800000",
+        "subLabels": [
+            {
+                "name": "Doctor's Appointments",
+                "colorName": "Burgundy",
+                "colorHex": "#800080"
+            },
+            {
+                "name": "Meditation",
+                "colorName": "Dark Red",
+                "colorHex": "#8B0000"
+            }
+        ]
+    },
+    {
+        "name": "Finance",
+        "colorName": "Green",
+        "colorHex": "#008000",
+        "subLabels": [
+            {
+                "name": "Budgeting",
+                "colorName": "Lime Green",
+                "colorHex": "#32CD32"
+            },
+            {
+                "name": "Investing",
+                "colorName": "Dark Green",
+                "colorHex": "#006400"
+            }
+        ]
+    },
+    {
+        "name": "Sports",
+        "colorName": "Navy",
+        "colorHex": "#000080",
+        "subLabels": [
+            {
+                "name": "Basketball",
+                "colorName": "Blue",
+                "colorHex": "#0000FF"
+            },
+            {
+                "name": "Soccer",
+                "colorName": "Royal Blue",
+                "colorHex": "#4169E1"
+            }
+        ]
+    },
+    {
+        "name": "Food",
+        "colorName": "Orange",
+        "colorHex": "#FFA500",
+        "subLabels": [
+            {
+                "name": "Cooking",
+                "colorName": "Peach",
+                "colorHex": "#FFDAB9"
+            },
+            {
+                "name": "Eating Out",
+                "colorName": "Coral",
+                "colorHex": "#FF7F50"
+            }
+        ]
+    },
+    {
+        "name": "Shopping",
+        "colorName": "Violet",
+        "colorHex": "#EE82EE",
+        "subLabels": [
+            {
+                "name": "Clothing",
+                "colorName": "Plum",
+                "colorHex": "#DDA0DD"
+            },
+            {
+                "name": "Grocery Shopping",
+                "colorName": "Orchid",
+                "colorHex": "#DA70D6"
+            }
+        ]
+    },
+    {
+        "name": "Personal Care",
+        "colorName": "Pink",
+        "colorHex": "#FFC0CB",
+        "subLabels": [
+            {
+                "name": "Haircuts",
+                "colorName": "Hot Pink",
+                "colorHex": "#FF69B4"
+            },
+            {
+                "name": "Manicures",
+                "colorName": "Deep Pink",
+                "colorHex": "#FF1493"
+            }
+        ]
+    },
+    {
+        "name": "Work",
+        "colorName": "Dark Gray",
+        "colorHex": "#A9A9A9",
+        "subLabels": [
+            {
+                "name": "Meetings",
+                "colorName": "Light Gray",
+                "colorHex": "#D3D3D3"
+            },
+            {
+                "name": "Deadlines",
+                "colorName": "Silver",
+                "colorHex": "#C0C0C0"
+            }
+        ]
+    },
+    {
+        "name": "Travel",
+        "colorName": "Maroon",
+        "colorHex": "#800000",
+        "subLabels": [
+            {
+                "name": "Vacation",
+                "colorName": "Crimson",
+                "colorHex": "#DC143C"
+            },
+            {
+                "name": "Business Trips",
+                "colorName": "Tomato",
+                "colorHex": "#FF6347"
+            }
+        ]
+    },
+    {
+        "name": "Home",
+        "colorName": "Yellow",
+        "colorHex": "#FFFF00",
+        "subLabels": [
+            {
+                "name": "Cleaning",
+                "colorName": "Khaki",
+                "colorHex": "#F0E68C"
+            },
+            {
+                "name": "DIY Projects",
+                "colorName": "Gold",
+                "colorHex": "#FFD700"
+            }
+        ]
+    },
+    {
+        "name": "Entertainment",
+        "colorName": "Red",
+        "colorHex": "#FF0000",
+        "subLabels": [
+            {
+                "name": "Movies",
+                "colorName": "Firebrick",
+                "colorHex": "#B22222"
+            },
+            {
+                "name": "Music",
+                "colorName": "Crimson",
+                "colorHex": "#DC143C"
+            }
+        ]
+    },
+    {
+        "name": "Education",
+        "colorName": "Olive",
+        "colorHex": "#808000",
+        "subLabels": [
+            {
+                "name": "Learning",
+                "colorName": "Dark Olive Green",
+                "colorHex": "#556B2F"
+            },
+            {
+                "name": "Tutoring",
+                "colorName": "Olive Drab",
+                "colorHex": "#6B8E23"
+            }
+        ]
+    }
+]
+
+
+
+

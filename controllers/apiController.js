@@ -1,52 +1,41 @@
 const mongoose = require('mongoose')
 const Task = require('../models/taskModel')
 const User = require('../models/userModel')
+const Label = require('../models/labelModel')
 
 
-const tasksArr = [
-    {
-        userId: 'user1',
-        taskName: 'Grocery Shopping',
-        description: 'Buy groceries for the week',
-        dueDate: new Date('2023-02-10'),
-        priority: 3,
-        labels: ['Personal', 'Shopping']
-    },
-    {
-        userId: 'user1',
-        taskName: 'Submit Report',
-        description: 'Submit the weekly report to the boss',
-        dueDate: new Date('2023-02-08'),
-        priority: 5,
-        labels: ['Work']
-    },
-    {
-        userId: 'user2',
-        taskName: 'Visit the doctor',
-        description: 'Visit the doctor for a check-up',
-        dueDate: new Date('2023-02-06'),
-        priority: 4,
-        labels: ['Personal', 'Health']
-    }
-];
 
 exports.main = function (req, res) {
-    const task = new Task(tasksArr[2]);
-    task.save().then((result) => res.send(result))
-        .catch((error) => {
-            console.log(error) 
-            res.send(error)
-        })
+    Label.deleteMany({}, (error) => {
+        if (error) {
+            return res.status(500).send({ message: "Error deleting tasks" });
+        }
+    });
+    let labels = [{ "name": "Personal", "color": "#00FF00" }, { "name": "Work", "color": "#0000FF" }, { "name": "Groceries", "color": "#FFA500" }, { "name": "Errands", "color": "#FF69B4" }, { "name": "Fitness", "color": "#800080" }, { "name": "Hobbies", "color": "#FFFF00" }, { "name": "Home", "color": "#008080" }, { "name": "Travel", "color": "#FF0000" }, { "name": "Finance", "color": "#00FF00" }, { "name": "Health", "color": "#0000FF" }]
+
+    labels.forEach(element => {
+        const label = new Label(element)
+        label.save()
+    });
+    res.status(201).send("save all")
+
+    //
+    // const task = new Task(tasksArr[0]);
+    // task.save().then((result) => res.send(result))
+    //     .catch((error) => {
+    //         console.log(error)
+    //         return res.status(500).send({ error: 'Failed to retrieve tasks' });
+    //     })
 }
 
 exports.getAllTasks = function (req, res) {
-    Task.find({userId: req.user._id}, (error, tasks) => {
+    Task.find({ userId: req.user._id }, (error, tasks) => {
         if (error) {
             console.error(error);
             return res.status(500).send({ error: 'Failed to retrieve tasks' });
         }
 
-        return res.send(tasks);
+        return res.status(200).send(tasks);
     });
 }
 
@@ -57,24 +46,22 @@ exports.getTask = function (req, res) {
         return res.status(400).send({ error: 'Invalid task ID' });
     }
 
-    Task.findOne({_id: id, userId: req.user._id}, (error, task) => {
+    Task.findOne({ _id: id, userId: req.user._id }, (error, task) => {
         if (error) {
             console.error(error);
             return res.status(500).send({ error: 'Failed to retrieve task' });
         }
 
         if (!task) return res.status(404).send({ error: 'Task not found' });
-        return res.send(task);
+        return res.status(200).send(task);
     });
 }
 
 exports.newTask = function (req, res) {
-    if(!req.user || !req.user._id){
-        return res.status(400).json({
-            message: "User data not found"
-        });
+    if (!req.user || !req.user._id) {
+        return res.status(400).json({ message: "User data not found" });
     }
-    req.body.labels
+
     const newTask = new Task({
         userId: req.user._id,
         taskName: req.body.taskName,
@@ -129,36 +116,44 @@ exports.updateTask = function (req, res) {
         }
 
         if (!task) return res.status(404).send({ error: 'Task not found' });
-        return res.send(task);
+        return res.status(200).send(task);
     });
 }
 
 //delete task by id
-// exports.sign_in = function (req, res) {
-//     const { id } = req.params;
+exports.deleteTask = function (req, res) {
+    const { id } = req.params;
 
-//     // Check if the task ID is valid
-//     if (!mongoose.Types.ObjectId.isValid(id)) {
-//         return res.status(400).send({ error: 'Invalid task ID' });
-//     }
+    // Check if the task ID is valid
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({ error: 'Invalid task ID' });
+    }
 
-//     Task.findByIdAndRemove(id, (error, task) => {
-//         if (error) {
-//             console.error(error);
-//             return res.status(500).send({ error: 'Failed to delete task' });
-//         }
+    if (!req.user || !req.user._id) {
+        return res.status(400).json({ message: "User data not found" });
+    }
 
-//         if (!task) return res.status(404).send({ error: 'Task not found' });
-//         return res.send({ message: 'Task deleted' });
-//     });
-// }
+    Task.findOneAndRemove({ _id: id, userId: req.user._id }, (error, task) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).send({ error: 'Failed to delete task' });
+        }
+
+        if (!task) return res.status(404).send({ error: 'Task not found' });
+        return res.status(200).send({ message: 'Task deleted' });
+    });
+}
 
 //delete all tasks for specific user
 exports.deleteTasks = function (req, res) {
-    Task.remove({}, (error) => {
+    if (!req.user || !req.user._id) {
+        return res.status(400).json({ message: "User data not found" });
+    }
+
+    Task.deleteMany({ userId: req.user._id }, (error) => {
         if (error) {
-            return res.status(500).json({ message: "Error deleting tasks" });
+            return res.status(500).send({ message: "Error deleting tasks" });
         }
-        return res.status(200).json({ message: "All tasks deleted successfully" });
+        return res.status(200).send({ message: "All tasks deleted successfully" });
     });
 }
