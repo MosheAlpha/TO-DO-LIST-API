@@ -15,7 +15,7 @@ const labelSchema = new Schema({
         required: true
     },
     subLabels: {
-        type: Object,
+        type: Array,
         required: true
     }
 });

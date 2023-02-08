@@ -6,18 +6,24 @@ const Label = require('../models/labelModel')
 
 
 exports.main = function (req, res) {
-    Label.deleteMany({}, (error) => {
-        if (error) {
-            return res.status(500).send({ message: "Error deleting tasks" });
-        }
-    });
-    let labels = [{ "name": "Personal", "color": "#00FF00" }, { "name": "Work", "color": "#0000FF" }, { "name": "Groceries", "color": "#FFA500" }, { "name": "Errands", "color": "#FF69B4" }, { "name": "Fitness", "color": "#800080" }, { "name": "Hobbies", "color": "#FFFF00" }, { "name": "Home", "color": "#008080" }, { "name": "Travel", "color": "#FF0000" }, { "name": "Finance", "color": "#00FF00" }, { "name": "Health", "color": "#0000FF" }]
+    // Label.deleteMany({}, (error) => {
+    //     if (error) {
+    //         return res.status(500).send({ message: "Error deleting tasks" });
+    //     }
+    // });
 
-    labels.forEach(element => {
-        const label = new Label(element)
-        label.save()
-    });
-    res.status(201).send("save all")
+    // labels.forEach(element => {
+    //     const label = new Label(element)
+    //     label.save()
+    // });
+    // Label.create(labels, function (err, labels) {
+    //     if (err) {
+    //         console.error(err);
+    //         return res.status(500).send({ err: 'Failed to save tasks' });
+    //     }
+
+    //     return res.status(201).send("save all");
+    // });
 
     //
     // const task = new Task(tasksArr[0]);

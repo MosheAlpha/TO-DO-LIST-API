@@ -23,96 +23,8 @@ Error handling: Functions to handle any errors that occur during the above reque
 
 
 // Tasks labels
-[{ "name": "Personal", "color": "Green" }, { "name": "Work", "color": "Blue" }, { "name": "Groceries", "color": "Orange" }, { "name": "Errands", "color": "Pink" }, { "name": "Fitness", "color": "Purple" }, { "name": "Hobbies", "color": "Yellow" }, { "name": "Home", "color": "Teal" }, { "name": "Travel", "color": "Red" }, { "name": "Finance", "color": "Green" }, { "name": "Health", "color": "Blue" }]
-[{ "name": "Personal", "color": "#00FF00" }, { "name": "Work", "color": "#0000FF" }, { "name": "Groceries", "color": "#FFA500" }, { "name": "Errands", "color": "#FF69B4" }, { "name": "Fitness", "color": "#800080" }, { "name": "Hobbies", "color": "#FFFF00" }, { "name": "Home", "color": "#008080" }, { "name": "Travel", "color": "#FF0000" }, { "name": "Finance", "color": "#00FF00" }, { "name": "Health", "color": "#0000FF" }]
 
-["Personal", "Work", "Shopping", "Home Chores", "Health and Fitness", "Study/Learning", "Travel", "Creative/Hobbies", "Financial", "Miscellaneous/Other", "Event Planning", "Technology", "Communication", "Relationship Management", "Food and Drink", "Automotive", "Home Improvement", "Pet Care", "Personal Growth", "Spirituality/Religion"]
-// and in hebrew
-["אישי", "עבודה", "קניות", "מטפלים בבית", "בריאות וכושר", "לימוד / למידה", "נסיעות", "יצירה / פעילויות בחופש", "כלכלי", "שונות / אחר", "תכנון אירועים", "טכנולוגיות", "תקשורת", "ניהול יחסים", "אוכל ושתייה", "אוטומוביל", "שיפוץ הבית", "טיפוח חיות מחמד", "צמיחה אישית", "דתיות / רוחניות"]
-
-const tasksArr = [
-    {
-        userId: 'user1',
-        taskName: 'Grocery Shopping',
-        description: 'Buy groceries for the week',
-        dueDate: new Date('2023-02-10'),
-        priority: 3,
-        labels: ['Personal', 'Shopping']
-    }
-];
-
-
-
-//first views testing 
-
-app.get('/api/courses', (req, res) => {
-    res.send(courses);
-});
-
-app.get('/api/courses/:id', (req, res) => {
-    // res.send(req.params.id);
-    // res.send(req.query)
-    let course = courses.find(c => c.id === parseInt(req.params.id))
-    if (!course) {
-        res.status(404).send('The course with given ID was not found.');
-    } else {
-        res.send(course)
-    }
-});
-
-app.post('/api/courses', (req, res) => {
-    const { error } = validateCourse(req.body);
-    if (error) return res.status(400).send(error.details[0].message)
-
-    const course = {
-        id: courses.length + 1,
-        name: req.body.name
-    }
-
-    courses.push(course)
-    res.send(course)
-})
-
-app.put('/api/courses/:id', (req, res) => {
-    let course = courses.find(c => c.id === parseInt(req.params.id))
-    if (!course)
-        return res.status(404).send('The course with given ID was not found.');
-
-    // const result = validateCourse(req.body);
-    const { error } = validateCourse(req.body);
-
-    if (error) return res.status(400).send(error.details[0].message)
-
-    course.name = req.body.name;
-    res.send(course)
-    console.log()
-});
-
-
-app.delete('/api/courses/:id', (req, res) => {
-    let course = courses.find(c => c.id === parseInt(req.params.id))
-    if (!course) return res.status(404).send('The course with given ID was not found.');
-
-    const { error } = validateCourse(req.body);
-
-    if (error) return res.status(400).send(error.details[0].message)
-
-    // courses.delete(course)
-    const index = courses.indexOf(course);
-    courses.splice(index, 1)
-    res.send(course)
-});
-
-
-function validateCourse(course) {
-    const schema = Joi.object({
-        name: Joi.string().min(3).required()
-    });
-
-    return schema.validate(course)
-}
-
-let data = [
+let labels = [
     {
         "name": "Personal",
         "colorName": "Green",
@@ -219,40 +131,6 @@ let data = [
         ]
     },
     {
-        "name": "Travel",
-        "colorName": "Red",
-        "colorHex": "#FF0000",
-        "subLabels": [
-            {
-                "name": "Vacation",
-                "colorName": "Tomato",
-                "colorHex": "#FF6347"
-            },
-            {
-                "name": "Business Trip",
-                "colorName": "Crimson",
-                "colorHex": "#DC143C"
-            }
-        ]
-    },
-    {
-        "name": "Home Improvement",
-        "colorName": "Yellow",
-        "colorHex": "#FFFF00",
-        "subLabels": [
-            {
-                "name": "Painting",
-                "colorName": "Lemon Yellow",
-                "colorHex": "#FFFACD"
-            },
-            {
-                "name": "Gardening",
-                "colorName": "Light Yellow",
-                "colorHex": "#FFFFE0"
-            }
-        ]
-    },
-    {
         "name": "Education",
         "colorName": "Teal",
         "colorHex": "#008080",
@@ -266,6 +144,16 @@ let data = [
                 "name": "Book Club",
                 "colorName": "Dark Turquoise",
                 "colorHex": "#00CED1"
+            },
+            {
+                "name": "Learning",
+                "colorName": "Dark Olive Green",
+                "colorHex": "#556B2F"
+            },
+            {
+                "name": "Tutoring",
+                "colorName": "Olive Drab",
+                "colorHex": "#6B8E23"
             }
         ]
     },
@@ -389,23 +277,6 @@ let data = [
         ]
     },
     {
-        "name": "Work",
-        "colorName": "Dark Gray",
-        "colorHex": "#A9A9A9",
-        "subLabels": [
-            {
-                "name": "Meetings",
-                "colorName": "Light Gray",
-                "colorHex": "#D3D3D3"
-            },
-            {
-                "name": "Deadlines",
-                "colorName": "Silver",
-                "colorHex": "#C0C0C0"
-            }
-        ]
-    },
-    {
         "name": "Travel",
         "colorName": "Maroon",
         "colorHex": "#800000",
@@ -436,6 +307,16 @@ let data = [
                 "name": "DIY Projects",
                 "colorName": "Gold",
                 "colorHex": "#FFD700"
+            },
+            {
+                "name": "Painting",
+                "colorName": "Lemon Yellow",
+                "colorHex": "#FFFACD"
+            },
+            {
+                "name": "Gardening",
+                "colorName": "Light Yellow",
+                "colorHex": "#FFFFE0"
             }
         ]
     },
@@ -457,23 +338,195 @@ let data = [
         ]
     },
     {
-        "name": "Education",
-        "colorName": "Olive",
-        "colorHex": "#808000",
+        "name": "Miscellaneous/Other",
+        "colorName": "Platinum",
+        "colorHex": "#E5E4E2",
         "subLabels": [
             {
-                "name": "Learning",
-                "colorName": "Dark Olive Green",
-                "colorHex": "#556B2F"
+                "name": "Household Items",
+                "colorName": "Lavender",
+                "colorHex": "#E6E6FA"
             },
             {
-                "name": "Tutoring",
-                "colorName": "Olive Drab",
-                "colorHex": "#6B8E23"
+                "name": "Stationery",
+                "colorName": "Mint Green",
+                "colorHex": "#98FF98"
+            }
+        ]
+    },
+    {
+        "name": "Event Planning",
+        "colorName": "Sky Blue",
+        "colorHex": "#87CEEB",
+        "subLabels": [
+            {
+                "name": "Wedding",
+                "colorName": "Blush Pink",
+                "colorHex": "#FF69B4"
+            },
+            {
+                "name": "Birthday Party",
+                "colorName": "Sunshine Yellow",
+                "colorHex": "#FFF700"
+            }
+        ]
+    },
+    {
+        "name": "Technology",
+        "colorName": "Electric Blue",
+        "colorHex": "#7DF9FF",
+        "subLabels": [
+            {
+                "name": "Computers",
+                "colorName": "Cool Gray",
+                "colorHex": "#808080"
+            },
+            {
+                "name": "Mobile Devices",
+                "colorName": "Rose Gold",
+                "colorHex": "#B76E79"
+            }
+        ]
+    },
+    {
+        "name": "Communication",
+        "colorName": "Turquoise",
+        "colorHex": "#40E0D0",
+        "subLabels": [
+            {
+                "name": "Phone Calls",
+                "colorName": "Cyan",
+                "colorHex": "#00FFFF"
+            },
+            {
+                "name": "Emails",
+                "colorName": "Light Sky Blue",
+                "colorHex": "#87CEFA"
+            }
+        ]
+    },
+    {
+        "name": "Relationship Management",
+        "colorName": "Terracotta",
+        "colorHex": "#E2725B",
+        "subLabels": [
+            {
+                "name": "Family",
+                "colorName": "Peach",
+                "colorHex": "#FFE5B4"
+            },
+            {
+                "name": "Friends",
+                "colorName": "Lemon Yellow",
+                "colorHex": "#FFFF00"
+            }
+        ]
+    },
+    {
+        "name": "Spirituality/Religion",
+        "colorName": "Lavender",
+        "colorHex": "#E6E6FA",
+        "subLabels": [
+            {
+                "name": "Meditation",
+                "colorName": "Periwinkle",
+                "colorHex": "#CCCCFF"
+            },
+            {
+                "name": "Prayer",
+                "colorName": "Thistle",
+                "colorHex": "#D8BFD8"
             }
         ]
     }
 ]
+
+["Personal", "Work", "Shopping", "Home Chores", "Health and Fitness", "Study/Learning", "Travel", "Creative/Hobbies", "Financial", "Miscellaneous/Other", "Event Planning", "Technology", "Communication", "Relationship Management", "Food and Drink", "Automotive", "Home Improvement", "Pet Care", "Personal Growth", "Spirituality/Religion"]
+// and in hebrew
+["אישי", "עבודה", "קניות", "מטפלים בבית", "בריאות וכושר", "לימוד / למידה", "נסיעות", "יצירה / פעילויות בחופש", "כלכלי", "שונות / אחר", "תכנון אירועים", "טכנולוגיות", "תקשורת", "ניהול יחסים", "אוכל ושתייה", "אוטומוביל", "שיפוץ הבית", "טיפוח חיות מחמד", "צמיחה אישית", "דתיות / רוחניות"]
+
+const tasksArr = [
+    {
+        userId: 'user1',
+        taskName: 'Grocery Shopping',
+        description: 'Buy groceries for the week',
+        dueDate: new Date('2023-02-10'),
+        priority: 3,
+        labels: ['Personal', 'Shopping']
+    }
+];
+
+
+
+//first views testing 
+
+app.get('/api/courses', (req, res) => {
+    res.send(courses);
+});
+
+app.get('/api/courses/:id', (req, res) => {
+    // res.send(req.params.id);
+    // res.send(req.query)
+    let course = courses.find(c => c.id === parseInt(req.params.id))
+    if (!course) {
+        res.status(404).send('The course with given ID was not found.');
+    } else {
+        res.send(course)
+    }
+});
+
+app.post('/api/courses', (req, res) => {
+    const { error } = validateCourse(req.body);
+    if (error) return res.status(400).send(error.details[0].message)
+
+    const course = {
+        id: courses.length + 1,
+        name: req.body.name
+    }
+
+    courses.push(course)
+    res.send(course)
+})
+
+app.put('/api/courses/:id', (req, res) => {
+    let course = courses.find(c => c.id === parseInt(req.params.id))
+    if (!course)
+        return res.status(404).send('The course with given ID was not found.');
+
+    // const result = validateCourse(req.body);
+    const { error } = validateCourse(req.body);
+
+    if (error) return res.status(400).send(error.details[0].message)
+
+    course.name = req.body.name;
+    res.send(course)
+    console.log()
+});
+
+
+app.delete('/api/courses/:id', (req, res) => {
+    let course = courses.find(c => c.id === parseInt(req.params.id))
+    if (!course) return res.status(404).send('The course with given ID was not found.');
+
+    const { error } = validateCourse(req.body);
+
+    if (error) return res.status(400).send(error.details[0].message)
+
+    // courses.delete(course)
+    const index = courses.indexOf(course);
+    courses.splice(index, 1)
+    res.send(course)
+});
+
+
+function validateCourse(course) {
+    const schema = Joi.object({
+        name: Joi.string().min(3).required()
+    });
+
+    return schema.validate(course)
+}
+
 
 
 
