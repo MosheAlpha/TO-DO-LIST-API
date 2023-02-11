@@ -8,7 +8,7 @@ const UserSchema = new Schema({
         trim: true,
         required: true
     },
-    secondName: {
+    lastName: {
         type: String,
         trim: true,
         required: true

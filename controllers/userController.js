@@ -29,8 +29,8 @@ exports.signIn = function (req, res) {
         if (!user || !user.comparePassword(req.body.password)) {
             return res.status(401).json({ message: 'Authentication failed. Invalid user or password.' });
         }
-        const token = jwt.sign({ email: user.email, firstName: user.firstName, secondName: user.secondName, _id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" })
-        const refreshToken = jwt.sign({ email: user.email, firstName: user.firstName, secondName: user.secondName, _id: user._id }, process.env.jWT_REFRESH_TOKEN_SECRET);
+        const token = jwt.sign({ email: user.email, firstName: user.firstName, lastName: user.lastName, _id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" })
+        const refreshToken = jwt.sign({ email: user.email, firstName: user.firstName, lastName: user.lastName, _id: user._id }, process.env.jWT_REFRESH_TOKEN_SECRET);
 
         const newToken = new Token({ refreshToken: refreshToken , userId: user._id});
         newToken.save(function (err, token) {
@@ -39,6 +39,7 @@ exports.signIn = function (req, res) {
 
         return res.status(200).json({
             message: "User Logged in Successfully",
+            logged: true,
             token,
             refreshToken,
         });
@@ -61,7 +62,7 @@ exports.token = function (req, res) {
     jwt.verify(refreshToken, process.env.jWT_REFRESH_TOKEN_SECRET, (err, user) => {
         if (err) return res.status(403).send("Could not Verify Refresh Token");
 
-        const token = jwt.sign({ email: user.email, firstName: user.firstName, secondName: user.secondName, _id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" })
+        const token = jwt.sign({ email: user.email, firstName: user.firstName, lastName: user.lastName, _id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" })
         return res.status(200).json({
             message: "Access token updated Successfully!",
             accessToken: token,
