@@ -11,4 +11,6 @@ app.route('/tasks').put(apiHandlers.updateTask);
 app.route('/tasks/:id').delete(apiHandlers.deleteTask);
 app.route('/deleteTasks').delete(apiHandlers.deleteTasks);
 
+app.route('/labels').get(apiHandlers.getAllLabels)
+
 module.exports = app;

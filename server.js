@@ -15,7 +15,7 @@ mongoose.connect(db).then((res) => console.log("Connected to DB...")).catch((err
 
 const corsOptions = {
     origin: '*',
-    credentials: true,           
+    credentials: true,
     optionSuccessStatus: 200,
 }
 app.use(cors(corsOptions))

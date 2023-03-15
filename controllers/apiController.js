@@ -163,3 +163,14 @@ exports.deleteTasks = function (req, res) {
         return res.status(200).send({ message: "All tasks deleted successfully" });
     });
 }
+
+exports.getAllLabels = function(req, res) {
+    Label.find({}, (error, labels) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).send({ error: 'Failed to retrieve labels' });
+        }
+
+        return res.status(200).send(labels);
+    });
+}
