@@ -21,8 +21,8 @@ const taskSchema = new Schema({
         default: false
     },
     priority: {
-        type: Number,
-        default: 0
+        type: String,
+        default: "Low"
     },
     labels: [{
         type: String
